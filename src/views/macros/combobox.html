@@ -1,0 +1,65 @@
+{% macro combobox(id, label, options, placeholder='Select') -%}
+<div class="slds-form-element slds-size_1-of-4">
+  <label class="slds-form-element__label" for="{{ id }}-input" id="{{ id }}-label">{{ label }}</label>
+  <div class="slds-form-element__control">
+    <div class="slds-combobox_container">
+      <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+           id="{{ id }}" role="combobox" aria-haspopup="listbox" aria-expanded="false"
+           aria-labelledby="{{ id }}-label {{ id }}-value">
+
+        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+          <div class="slds-input_faux slds-combobox__input" id="{{ id }}-value" tabindex="0" aria-controls="{{ id }}-listbox">
+            <span class="slds-truncate">{{ placeholder }}</span>
+          </div>
+          <span class="slds-icon_container slds-input__icon slds-input__icon_right" aria-hidden="true">
+            <svg class="slds-icon slds-icon_x-small slds-icon-text-default">
+              <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+            </svg>
+          </span>
+        </div>
+
+        <div id="{{ id }}-listbox" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid"
+             role="listbox" aria-label="{{ label }}" tabindex="-1">
+          <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+            {%- for opt in options %}
+            <li role="presentation" class="slds-listbox__item">
+              <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                   role="option" data-value="{{ opt.value }}" aria-selected="false">
+                <span class="slds-media__figure slds-listbox__option-icon"></span>
+                <span class="slds-media__body"><span class="slds-truncate" title="{{ opt.label }}">{{ opt.label }}</span></span>
+              </div>
+            </li>
+            {%- endfor %}
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const nextBtn = document.getElementById('btn-next');   // id from _footer_buttons.html
+    const cbRoot  = document.getElementById('relateToCb'); // your combobox root
+    const listbox = cbRoot?.querySelector('[role="listbox"]');
+
+    function update() {
+      const selected = listbox?.querySelector('[aria-selected="true"]');
+      if (nextBtn) nextBtn.disabled = !selected;
+    }
+
+    // listen for your combobox selection events
+    listbox?.addEventListener('click', e => {
+      const opt = e.target.closest('[role="option"]');
+      if (opt) {
+        listbox.querySelectorAll('[aria-selected="true"]')
+               .forEach(el => el.setAttribute('aria-selected','false'));
+        opt.setAttribute('aria-selected','true');
+        update();
+      }
+    });
+
+    update(); // initial
+  });
+</script>
+{%- endmacro %}

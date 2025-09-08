@@ -1,0 +1,15 @@
+{% set steps_heading_id = steps_heading_id or 'steps-h1' %}
+<h1 id="{{ steps_heading_id }}" class="slds-text-heading_medium os-heading">Steps</h1>
+<div class="slds-progress slds-progress_vertical" aria-labelledby="{{ steps_heading_id }}">
+  <ol class="slds-progress__list">
+    <li class="slds-progress__item slds-is-active" aria-current="step">
+      <div class="slds-progress__marker"><span class="slds-assistive-text">Active</span></div>
+      <div class="slds-progress__item_content">
+        <span class="slds-truncate" title="{{ step_title|default('Select Request Type') }}">{{ step_title|default('Select Request Type') }}</span>
+      </div>
+    </li>
+  </ol>
+  <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100">
+    <span class="slds-assistive-text">Progress: 100%</span>
+  </div>
+</div>

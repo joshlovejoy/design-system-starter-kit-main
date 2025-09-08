@@ -1,0 +1,16 @@
+
+.os-heading {
+  position: relative;
+  padding-bottom: .5rem;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 3rem;             /* short line */
+    height: 2px;
+    background: #1b96ff;     /* SLDS brand blue  */
+    border-radius: 2px;
+  }
+}
